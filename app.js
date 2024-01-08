@@ -1,10 +1,11 @@
-const express = require('express');
 const path = require('path');
 
+const express = require('express');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const { default: mongoose } = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const feedRoutes = require('./routes/feed');
 const authRoutes = require('./routes/auth');
@@ -32,6 +33,11 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+let corsOptions = {
+  origin: ['http://localhost:3000'],
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
